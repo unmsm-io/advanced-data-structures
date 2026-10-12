@@ -1,10 +1,11 @@
 // Syllabus: 16 weeks, 4 units. `lesson` is the module for weeks that have a machine.
 import cuckoo from "./cuckoo.mjs";
+import amortized from "./amortized.mjs";
 
 const t = (en, es) => ({ en, es });
 export const UNITS = [
   { n: "I", title: t("Advanced hashing and probabilistic structures", "Hashing avanzado y estructuras probabilísticas"), weeks: [
-    { w: 1, topic: t("Amortized complexity, RAM and Word-RAM models", "Complejidad amortizada, modelos RAM y Word-RAM") },
+    { w: 1, topic: t("Amortized complexity, RAM and Word-RAM models", "Complejidad amortizada, modelos RAM y Word-RAM"), lesson: amortized },
     { w: 2, topic: t("Universal, perfect and cuckoo hashing", "Hashing universal, perfecto y cuckoo"), lesson: cuckoo },
     { w: 3, topic: t("Bloom, counting Bloom, HyperLogLog, LSH", "Bloom, counting Bloom, HyperLogLog, LSH") },
     { w: 4, topic: t("Union-Find, binomial and Fibonacci heaps", "Union-Find, heaps binomiales y de Fibonacci") },

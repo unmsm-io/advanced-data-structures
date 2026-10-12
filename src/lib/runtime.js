@@ -13,9 +13,9 @@ const say = (t) => { readout.textContent = t; stage.setAttribute("aria-valuetext
 const log = (t) => { logEl.innerHTML = t; };
 const stats = (rows) => { $("[data-stats]").innerHTML = rows.map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join(""); };
 const tables = (html) => { $("[data-tables]").innerHTML = html; };
-const cells = (label, sub, values, mark = () => false) =>
+const cells = (label, sub, values, mark = () => false, idx = (j) => j) =>
   `<div><b>${label}<em>${sub}</em></b><span style="grid-template-columns:repeat(${values.length},1fr)">${values
-    .map((v, j) => `<i class="${v === null || v === undefined ? "e" : ""}${mark(j) ? " on" : ""}"><small>${j}</small>${v ?? "—"}</i>`)
+    .map((v, j) => `<i class="${v === null || v === undefined ? "e" : ""}${mark(j) ? " on" : ""}"><small>${idx(j)}</small>${v ?? "—"}</i>`)
     .join("")}</span></div>`;
 // SVG groups that hold dynamic kit art.
 const layer = (name) => $(`[data-layer="${name}"]`, svg);

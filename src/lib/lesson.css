@@ -61,3 +61,4 @@ ol.q{padding-left:20px}ol.q li::marker{color:var(--acc);font-weight:700}
 .ck-tables i.on{border-color:var(--acc);color:var(--acc)}
 .lang{display:inline-flex;gap:2px;justify-self:end;font:500 12px Inter;margin-bottom:6px}.lang a{color:inherit;text-decoration:none;opacity:.55;padding:4px 8px;border-radius:6px}.lang a[aria-current]{opacity:1;background:var(--soft)}
 .pager{display:flex;justify-content:space-between;gap:16px;padding:28px 0;border-top:1px solid var(--rule);margin-top:24px}.pager a{color:inherit;text-decoration:none;font:500 14px Inter}.pager a small{display:block;font:600 11px Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
+.mono{font:12px "JetBrains Mono",monospace;opacity:.7}

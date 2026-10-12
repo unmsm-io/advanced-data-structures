@@ -28,3 +28,21 @@ export function liveScript({ P, u, consts = {}, code }) {
   const head = `const P=${JSON.stringify(P)};const U=${JSON.stringify(u)};` + Object.entries(consts).map(([n, v]) => `const ${n}=${JSON.stringify(v)};`).join("");
   return (kitScript() + head + RUNTIME + code).replace(/<\/(script)/gi, "<\\/$1");
 }
+
+// Wraps a machine into a lesson module. TEXT[lang] holds title, accent, machine, lede, refs, hint,
+// keyA, keyB, controls, pseudo, ui (live strings) and theory ([heading, html] pairs).
+export function makeLesson({ slug, fig, P, svg, consts, code, TEXT, stateLabel = "" }, UI) {
+  return {
+    slug,
+    machine: { en: TEXT.en.machine, es: TEXT.es.machine },
+    render(lang) {
+      const t = TEXT[lang], u = { ...UI[lang], ...t.ui };
+      return {
+        title: t.title, accent: t.accent, lede: t.lede, refs: t.refs,
+        lab: labHtml({ u, fig, title: t.title, hint: t.hint, readout: u.empty ?? "", keys: [{ mark: "lit", label: t.keyA }, { mark: "raised", label: t.keyB }], svg, controls: controlsHtml(u, t.controls), pseudo: t.pseudo, stateLabel: typeof stateLabel === "function" ? stateLabel(lang) : stateLabel }),
+        theory: t.theory.map(([h, b], i) => section(i + 1, h, b)).join(""),
+        script: liveScript({ P, u, consts, code }),
+      };
+    },
+  };
+}
