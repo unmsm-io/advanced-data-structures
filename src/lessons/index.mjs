@@ -4,6 +4,7 @@ import amortized from "./amortized.mjs";
 import bloom from "./bloom.mjs";
 import unionFind from "./union-find.mjs";
 import trie from "./trie.mjs";
+import suffixArray from "./suffix-array.mjs";
 
 const t = (en, es) => ({ en, es });
 export const UNITS = [
@@ -15,7 +16,7 @@ export const UNITS = [
   ] },
   { n: "II", title: t("Structures for text and indexing", "Estructuras para texto e indexación"), weeks: [
     { w: 5, topic: t("Trie, Patricia, Radix", "Trie, Patricia, Radix"), lesson: trie },
-    { w: 6, topic: t("Suffix tree, suffix array, pattern matching", "Suffix tree, suffix array, pattern matching") },
+    { w: 6, topic: t("Suffix tree, suffix array, pattern matching", "Suffix tree, suffix array, pattern matching"), lesson: suffixArray },
     { w: 7, topic: t("Inverted index, posting lists, compression", "Índice invertido, posting lists, compresión") },
     { w: 8, topic: t("Midterm exam", "Examen parcial") },
   ] },
