@@ -10,6 +10,7 @@ import segmentTree from "./segment-tree.mjs";
 import intervalTree from "./interval-tree.mjs";
 import kdTree from "./kd-tree.mjs";
 import quadtree from "./quadtree.mjs";
+import bplus from "./bplus-tree.mjs";
 
 const t = (en, es) => ({ en, es });
 export const UNITS = [
@@ -32,7 +33,7 @@ export const UNITS = [
     { w: 12, topic: t("Quadtrees, R-trees, R*-trees", "Quadtrees, R-trees, R*-trees"), lesson: quadtree },
   ] },
   { n: "IV", title: t("External memory, persistence and distributed systems", "Memoria externa, persistencia y sistemas distribuidos"), weeks: [
-    { w: 13, topic: t("I/O model, B-trees, B+ trees, LSM", "Modelo I/O, B-trees, B+ trees, LSM") },
+    { w: 13, topic: t("I/O model, B-trees, B+ trees, LSM", "Modelo I/O, B-trees, B+ trees, LSM"), lesson: bplus },
     { w: 14, topic: t("Partial, full and confluent persistence", "Persistencia parcial, total y confluente") },
     { w: 15, topic: t("DHT, consistent hashing, skip graphs", "DHT, consistent hashing, skip graphs") },
     { w: 16, topic: t("Final project and exam", "Proyecto final y examen") },
