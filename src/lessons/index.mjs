@@ -8,6 +8,7 @@ import suffixArray from "./suffix-array.mjs";
 import invertedIndex from "./inverted-index.mjs";
 import segmentTree from "./segment-tree.mjs";
 import intervalTree from "./interval-tree.mjs";
+import kdTree from "./kd-tree.mjs";
 
 const t = (en, es) => ({ en, es });
 export const UNITS = [
@@ -26,7 +27,7 @@ export const UNITS = [
   { n: "III", title: t("Spatial structures and computational geometry", "Estructuras espaciales y geometría computacional"), weeks: [
     { w: 9, topic: t("Segment trees, range queries, lazy propagation", "Segment trees, range queries, lazy propagation"), lesson: segmentTree },
     { w: 10, topic: t("Interval trees, range trees", "Interval trees, range trees"), lesson: intervalTree },
-    { w: 11, topic: t("KD-trees, nearest neighbor search", "KD-trees, búsqueda del vecino más cercano") },
+    { w: 11, topic: t("KD-trees, nearest neighbor search", "KD-trees, búsqueda del vecino más cercano"), lesson: kdTree },
     { w: 12, topic: t("Quadtrees, R-trees, R*-trees", "Quadtrees, R-trees, R*-trees") },
   ] },
   { n: "IV", title: t("External memory, persistence and distributed systems", "Memoria externa, persistencia y sistemas distribuidos"), weeks: [
