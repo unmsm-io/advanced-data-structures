@@ -5,7 +5,7 @@ import { UI } from "../i18n/ui.mjs";
 
 const N = 8, PITCH = 22, X0 = -((N - 1) * PITCH) / 2, LY = [-42, -20, 2, 26], BAR_H = 5;
 const PLATE = { x: -112, y: -58, w: 224, d: 112, r: 8 };
-const P = k.fitProjection([...k.boxCorners(PLATE, -15, 0), [X0, 26, 40], [-X0, 26, 40]], 640, 350, { pad: 22, azimuth: 22 });
+const P = k.fitProjection([...k.boxCorners(PLATE, -15, 0), [X0, 26, 40], [-X0, 26, 40]], 640, 350, { pad: 22, azimuth: 62 });
 const svg = k.figureSvg({ width: 640, height: 350, label: "Segment tree machine", body: [
   bench(P, PLATE, { label: { x: 60, y: 44, w: 40, d: 10, r: 1.5 } }), ruler(P, X0 - 10, -X0 + 10, 38, { step: PITCH / 2, every: 2 }), layers("nodes"), layers("air"),
 ] });
