@@ -6,6 +6,7 @@ import unionFind from "./union-find.mjs";
 import trie from "./trie.mjs";
 import suffixArray from "./suffix-array.mjs";
 import invertedIndex from "./inverted-index.mjs";
+import segmentTree from "./segment-tree.mjs";
 
 const t = (en, es) => ({ en, es });
 export const UNITS = [
@@ -22,7 +23,7 @@ export const UNITS = [
     { w: 8, topic: t("Midterm exam", "Examen parcial") },
   ] },
   { n: "III", title: t("Spatial structures and computational geometry", "Estructuras espaciales y geometría computacional"), weeks: [
-    { w: 9, topic: t("Segment trees, range queries, lazy propagation", "Segment trees, range queries, lazy propagation") },
+    { w: 9, topic: t("Segment trees, range queries, lazy propagation", "Segment trees, range queries, lazy propagation"), lesson: segmentTree },
     { w: 10, topic: t("Interval trees, range trees", "Interval trees, range trees") },
     { w: 11, topic: t("KD-trees, nearest neighbor search", "KD-trees, búsqueda del vecino más cercano") },
     { w: 12, topic: t("Quadtrees, R-trees, R*-trees", "Quadtrees, R-trees, R*-trees") },
