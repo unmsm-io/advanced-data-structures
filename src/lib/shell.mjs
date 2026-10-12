@@ -5,7 +5,15 @@ import RUNTIME from "./runtime.js?raw";
 
 const kitScript = () => KIT.replace(/^export /gm, "");
 export const pad2 = (n) => String(n).padStart(2, "0");
-export const pseudoHtml = (lines) => lines.map((l, i) => `<div data-line="${i}"><span class="ln">${i + 1}</span>${l}</div>`).join("");
+const KW = /\b(if|else|while|for|in|repeat|times|return|stop|then|and|or|not|nil|true|false|for each|si|sino|si no|mientras|para|en|repetir|veces|devolver|terminar|parar|volver|verdadero|nil|cada)\b/g;
+const tint = (txt) => txt
+  .replace(/(←|↔|∨|∧|∉|∈|⊆|≠|≤|≥|&lt;|&gt;|=|\+|−|·)/g, '<span class="op">$1</span>')
+  .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>')
+  .replace(KW, '<span class="kw">$1</span>')
+  .replace(/\b(T|C|A|SA|LCP|parent|rank|tree|lazy|root|raíz|kids|hijos|postings|n|x|k|t|r|v|w|p|q|lo|hi|mid)\b(?=[\[\.(\s,:;)]|$)/g, '<span class="var">$1</span>');
+// Highlights text outside tags; <b> names become functions, <i> stays a comment.
+const highlight = (line) => line.split(/(<i>[\s\S]*?<\/i>|<[^>]+>)/).map((part) => (part.startsWith("<") ? part.replace(/^<b>/, '<b class="fn">') : tint(part))).join("");
+export const pseudoHtml = (lines) => lines.map((l, i) => `<div data-line="${i}"><span class="ln">${i + 1}</span>${highlight(l)}</div>`).join("");
 export const section = (n, title, html) => `<section><h2><small>${pad2(n)}</small>${title}</h2><div class="body">${html}</div></section>`;
 
 export function controlsHtml(u, buttons) {
