@@ -1,0 +1,35 @@
+---
+import { ISO_CSS } from "../../vendor/anatomy/kit/iso-kit.mjs";
+import css from "../lib/lesson.css?raw";
+import { UI } from "../i18n/ui.mjs";
+const { title, lang, alt, script } = Astro.props;
+const u = UI[lang];
+const boot = `(function(){var q=matchMedia("(prefers-color-scheme: dark)");function pref(){try{return localStorage.getItem("ads-theme")||"system"}catch(e){return "system"}}function apply(){var p=pref(),t=p==="system"?(q.matches?"dark":"light"):p;document.body.dataset.theme=t;document.documentElement.style.colorScheme=t;document.querySelectorAll("[data-theme-set]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.themeSet===p)})}apply();q.addEventListener("change",apply);document.addEventListener("click",function(e){var b=e.target.closest("[data-theme-set]");if(!b)return;try{localStorage.setItem("ads-theme",b.dataset.themeSet)}catch(x){}apply()});document.addEventListener("DOMContentLoaded",apply)})();`;
+const katex = `document.querySelectorAll(".theory,.hero,.ck-code").forEach(el=>renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}]}))`;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<link rel="alternate" hreflang={lang === "en" ? "es" : "en"} href={alt} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<style is:inline set:html={ISO_CSS + "*{box-sizing:border-box}body{margin:0;background:var(--anatomy-page);color:var(--anatomy-text);-webkit-font-smoothing:antialiased}" + css}></style>
+</head>
+<body class="iso" data-theme="dark">
+<script is:inline set:html={boot}></script>
+<main class="iso-page">
+<div class="lz"><nav class="topbar" style="display:flex;justify-content:flex-end;gap:12px;padding-top:20px">
+<div class="lang" role="group" aria-label="Language"><a href={lang === "en" ? Astro.url.pathname : alt} aria-current={lang === "en" ? "page" : undefined}>EN</a><a href={lang === "es" ? Astro.url.pathname : alt} aria-current={lang === "es" ? "page" : undefined}>ES</a></div>
+<div class="theme" role="group" aria-label="Theme"><button data-theme-set="system">{u.themeSystem}</button><button data-theme-set="light">{u.themeLight}</button><button data-theme-set="dark">{u.themeDark}</button></div>
+</nav></div>
+<slot />
+</main>
+{script && <script type="module" is:inline set:html={script}></script>}
+<script is:inline defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script is:inline defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" onload={katex}></script>
+</body>
+</html>

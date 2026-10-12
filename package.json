@@ -1,9 +1,13 @@
 {
-  "name": "ed-avanzados",
+  "name": "advanced-data-structures",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs",
-    "dev": "node build.mjs && bunx serve dist"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "7.3.8"
   }
 }
