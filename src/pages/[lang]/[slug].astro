@@ -14,7 +14,7 @@ const prev = LESSONS[i - 1], next = LESSONS[i + 1];
 const h1 = page.accent ? page.title.replace(page.accent, `<span>${page.accent}</span>`) : page.title;
 ---
 <Base title={`${page.title} · ${u.course}`} lang={lang} alt={`/${other}/${slug}/`} script={page.script}>
-<div class="lz"><header class="hero"><div><div class="kicker"><a href={`/${lang}/`}>{u.course}</a> · {u.unit} {w.unit} · {u.week} {pad2(w.w)}</div><h1 set:html={h1} /><p class="lede" set:html={page.lede} /></div><div class="meta"><span>{u.school}</span>{page.refs && <span set:html={page.refs} />}</div></header></div>
+<div class="lz"><header class="hero"><div><div class="kicker"><span><a href={`/${lang}/`}>{u.course}</a> · {u.unit} {w.unit} · {u.week} {pad2(w.w)}</span></div><h1 set:html={h1} /><p class="lede" set:html={page.lede} /></div><div class="meta"><span>{u.school}</span>{page.refs && <span set:html={page.refs} />}</div></header></div>
 <Fragment set:html={page.lab} />
 <div class="lz theory" set:html={page.theory} />
 <nav class="lz pager">{prev ? <a href={`/${lang}/${prev.lesson.slug}/`}><small>{u.prev}</small>{prev.topic[lang]}</a> : <a href={`/${lang}/`}><small>←</small>{u.back}</a>}{next ? <a href={`/${lang}/${next.lesson.slug}/`} style="text-align:right"><small>{u.next}</small>{next.topic[lang]}</a> : <a href={`/${lang}/`} style="text-align:right"><small>→</small>{u.back}</a>}</nav>
