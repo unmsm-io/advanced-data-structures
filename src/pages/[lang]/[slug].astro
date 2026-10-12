@@ -16,7 +16,7 @@ const words = page.sections.map((x) => x.html.replace(/<[^>]+>|\$[^$]*\$/g, " ")
 const toc = `(function(){var l=[].slice.call(document.querySelectorAll(".toc a"));var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){l.forEach(function(a){a.toggleAttribute("aria-current",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-30% 0px -60% 0px"});document.querySelectorAll(".step").forEach(function(s){o.observe(s)})})();`;
 const h1 = page.accent ? page.title.replace(page.accent, `<span>${page.accent}</span>`) : page.title;
 ---
-<Base title={`${page.title} · ${u.course}`} lang={lang} alt={`/${other}/${slug}/`} script={page.script}>
+<Base title={`${page.title} · ${u.course}`} lang={lang} alt={`/${other}/${slug}/`} script={page.script} current={i}>
 <div class="lz" id="top"><header class="hero"><div><div class="kicker"><span><a href={`/${lang}/`}>{u.course}</a> · {u.unit} {w.unit} · {u.week} {pad2(w.w)}</span></div><h1 set:html={h1} /><p class="lede" set:html={page.lede} /></div><div class="meta"><span>{u.school}</span>{page.refs && <span set:html={page.refs} />}</div></header></div>
 <Fragment set:html={page.lab} />
 <div class="lz lesson" id="theory">

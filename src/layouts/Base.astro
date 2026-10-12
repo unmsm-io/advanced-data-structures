@@ -2,7 +2,24 @@
 import { ISO_CSS } from "../../vendor/anatomy/kit/iso-kit.mjs";
 import css from "../lib/lesson.css?raw";
 import { UI } from "../i18n/ui.mjs";
-const { title, lang, alt, script } = Astro.props;
+import { LESSONS } from "../lessons/index.mjs";
+import { pad2 } from "../lib/shell.mjs";
+const { title, lang, alt, script, current = -1 } = Astro.props;
+const items = LESSONS.map((w, i) => ({ i, w: pad2(w.w), href: `/${lang}/${w.lesson.slug}/`, topic: w.topic[lang], machine: w.lesson.machine[lang] }));
+const prev = items[current - 1], next = items[current + 1], here = items[current];
+const navJs = `(function(){var d=document.getElementById("jump"),q=d.querySelector("input"),rows=[].slice.call(d.querySelectorAll("a")),sel=0;
+function vis(){return rows.filter(function(r){return !r.hidden})}
+function mark(){var v=vis();v.forEach(function(r,i){r.toggleAttribute("data-sel",i===sel)});if(v[sel])v[sel].scrollIntoView({block:"nearest"})}
+function open(){d.showModal();q.value="";rows.forEach(function(r){r.hidden=false});sel=Math.max(0,rows.findIndex(function(r){return r.hasAttribute("aria-current")}));mark();q.focus()}
+q.addEventListener("input",function(){var t=q.value.toLowerCase().trim();rows.forEach(function(r){r.hidden=t&&r.textContent.toLowerCase().indexOf(t)<0});sel=0;mark()});
+q.addEventListener("keydown",function(e){var v=vis();if(e.key==="ArrowDown"){e.preventDefault();sel=Math.min(v.length-1,sel+1);mark()}if(e.key==="ArrowUp"){e.preventDefault();sel=Math.max(0,sel-1);mark()}if(e.key==="Enter"&&v[sel]){location.href=v[sel].href}});
+d.addEventListener("click",function(e){if(e.target===d)d.close()});
+document.querySelectorAll("[data-jump]").forEach(function(b){b.addEventListener("click",open)});
+addEventListener("keydown",function(e){var tag=(e.target.tagName||"");if(d.open)return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();open();return}if(tag==="INPUT"||tag==="TEXTAREA"||e.metaKey||e.ctrlKey||e.altKey)return;
+if(e.key==="/"||e.key==="g"){e.preventDefault();open()}
+var p=document.querySelector("[data-nav=prev]"),n=document.querySelector("[data-nav=next]");
+if((e.key==="["||e.key==="ArrowLeft"&&e.shiftKey||e.key==="j")&&p){location.href=p.href}if((e.key==="]"||e.key==="ArrowRight"&&e.shiftKey||e.key==="k")&&n){location.href=n.href}
+if(/^[0-9]$/.test(e.key)&&e.shiftKey===false&&document.body.dataset.numnav!=="off"){}})})();`;
 const u = UI[lang];
 const boot = `(function(){var q=matchMedia("(prefers-color-scheme: dark)");function pref(){try{return localStorage.getItem("ads-theme")||"dark"}catch(e){return "dark"}}function apply(){var p=pref(),t=p==="system"?(q.matches?"dark":"light"):p;document.body.dataset.theme=t;document.documentElement.style.colorScheme=t;document.querySelectorAll("[data-theme-set]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.themeSet===p)})}apply();q.addEventListener("change",apply);document.addEventListener("click",function(e){var b=e.target.closest("[data-theme-set]");if(!b)return;try{localStorage.setItem("ads-theme",b.dataset.themeSet)}catch(x){}apply()});document.addEventListener("DOMContentLoaded",apply)})();`;
 const katex = `document.querySelectorAll(".lesson,.hero,.ck-code").forEach(el=>renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}]}))`;
@@ -13,6 +30,11 @@ const katex = `document.querySelectorAll(".lesson,.hero,.ck-code").forEach(el=>r
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{title}</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="description" content={u.lede} />
+<meta property="og:title" content={title} /><meta property="og:description" content={u.lede} />
+<meta property="og:image" content={new URL("/og.png", Astro.site).href} /><meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0a0b0b" />
 <link rel="alternate" hreflang={lang === "en" ? "es" : "en"} href={alt} />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -23,10 +45,21 @@ const katex = `document.querySelectorAll(".lesson,.hero,.ck-code").forEach(el=>r
 <script is:inline set:html={boot}></script>
 <main class="iso-page">
 <div class="lz"><nav class="topbar" style="display:flex;justify-content:flex-end;gap:12px;padding-top:20px">
+<a class="brand" href={`/${lang}/`}><img src="/logo.svg" alt="" width="28" height="28" />Data Machines</a>
+<div class="lessonnav">
+<a class="seg-btn" href={prev ? prev.href : `/${lang}/`} data-nav={prev ? "prev" : undefined} title={`${u.prev} ( [ )`}>←</a>
+<button class="seg-btn jumpbtn" data-jump><span class="mono">{here ? here.w : "··"}</span>{here ? here.topic : u.allLessons}<kbd>/</kbd></button>
+<a class="seg-btn" href={next ? next.href : (here ? `/${lang}/` : items[0].href)} data-nav="next" title={`${u.next} ( ] )`}>→</a>
+</div>
+<span style="flex:1"></span>
 <div class="lang" role="group" aria-label="Language"><a href={lang === "en" ? Astro.url.pathname : alt} aria-current={lang === "en" ? "page" : undefined}>EN</a><a href={lang === "es" ? Astro.url.pathname : alt} aria-current={lang === "es" ? "page" : undefined}>ES</a></div>
 <div class="theme" role="group" aria-label="Theme"><button data-theme-set="system">{u.themeSystem}</button><button data-theme-set="light">{u.themeLight}</button><button data-theme-set="dark">{u.themeDark}</button></div>
 </nav></div>
 <slot />
+<dialog id="jump" class="jump"><div class="jump-in"><input type="search" placeholder={u.jumpPlaceholder} aria-label={u.jumpPlaceholder} />
+<nav>{items.map((x) => <a href={x.href} aria-current={x.i === current ? "page" : undefined}><span class="mono">{x.w}</span><b>{x.topic}</b><em>{x.machine}</em></a>)}</nav>
+<footer><span><kbd>↑</kbd><kbd>↓</kbd> {u.kbMove}</span><span><kbd>↵</kbd> {u.kbOpen}</span><span><kbd>[</kbd><kbd>]</kbd> {u.kbPrevNext}</span><span><kbd>esc</kbd></span></footer></div></dialog>
+<script is:inline set:html={navJs}></script>
 </main>
 {script && <script type="module" is:inline set:html={script}></script>}
 <script is:inline defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
