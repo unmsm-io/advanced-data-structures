@@ -2,6 +2,7 @@
 import cuckoo from "./cuckoo.mjs";
 import amortized from "./amortized.mjs";
 import bloom from "./bloom.mjs";
+import unionFind from "./union-find.mjs";
 
 const t = (en, es) => ({ en, es });
 export const UNITS = [
@@ -9,7 +10,7 @@ export const UNITS = [
     { w: 1, topic: t("Amortized complexity, RAM and Word-RAM models", "Complejidad amortizada, modelos RAM y Word-RAM"), lesson: amortized },
     { w: 2, topic: t("Universal, perfect and cuckoo hashing", "Hashing universal, perfecto y cuckoo"), lesson: cuckoo },
     { w: 3, topic: t("Bloom, counting Bloom, HyperLogLog, LSH", "Bloom, counting Bloom, HyperLogLog, LSH"), lesson: bloom },
-    { w: 4, topic: t("Union-Find, binomial and Fibonacci heaps", "Union-Find, heaps binomiales y de Fibonacci") },
+    { w: 4, topic: t("Union-Find, binomial and Fibonacci heaps", "Union-Find, heaps binomiales y de Fibonacci"), lesson: unionFind },
   ] },
   { n: "II", title: t("Structures for text and indexing", "Estructuras para texto e indexación"), weeks: [
     { w: 5, topic: t("Trie, Patricia, Radix", "Trie, Patricia, Radix") },
