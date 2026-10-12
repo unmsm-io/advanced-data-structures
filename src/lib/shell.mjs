@@ -40,7 +40,7 @@ export function makeLesson({ slug, fig, P, svg, consts, code, TEXT, stateLabel =
       return {
         title: t.title, accent: t.accent, lede: t.lede, refs: t.refs,
         lab: labHtml({ u, fig, title: t.title, hint: t.hint, readout: u.empty ?? "", keys: [{ mark: "lit", label: t.keyA }, { mark: "raised", label: t.keyB }], svg, controls: controlsHtml(u, t.controls), pseudo: t.pseudo, stateLabel: typeof stateLabel === "function" ? stateLabel(lang) : stateLabel }),
-        theory: t.theory.map(([h, b], i) => section(i + 1, h, b)).join(""),
+        sections: t.theory.map(([h, b]) => ({ title: h, html: b })),
         script: liveScript({ P, u, consts, code }),
       };
     },

@@ -4,8 +4,8 @@ import css from "../lib/lesson.css?raw";
 import { UI } from "../i18n/ui.mjs";
 const { title, lang, alt, script } = Astro.props;
 const u = UI[lang];
-const boot = `(function(){var q=matchMedia("(prefers-color-scheme: dark)");function pref(){try{return localStorage.getItem("ads-theme")||"system"}catch(e){return "system"}}function apply(){var p=pref(),t=p==="system"?(q.matches?"dark":"light"):p;document.body.dataset.theme=t;document.documentElement.style.colorScheme=t;document.querySelectorAll("[data-theme-set]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.themeSet===p)})}apply();q.addEventListener("change",apply);document.addEventListener("click",function(e){var b=e.target.closest("[data-theme-set]");if(!b)return;try{localStorage.setItem("ads-theme",b.dataset.themeSet)}catch(x){}apply()});document.addEventListener("DOMContentLoaded",apply)})();`;
-const katex = `document.querySelectorAll(".theory,.hero,.ck-code").forEach(el=>renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}]}))`;
+const boot = `(function(){var q=matchMedia("(prefers-color-scheme: dark)");function pref(){try{return localStorage.getItem("ads-theme")||"dark"}catch(e){return "dark"}}function apply(){var p=pref(),t=p==="system"?(q.matches?"dark":"light"):p;document.body.dataset.theme=t;document.documentElement.style.colorScheme=t;document.querySelectorAll("[data-theme-set]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.themeSet===p)})}apply();q.addEventListener("change",apply);document.addEventListener("click",function(e){var b=e.target.closest("[data-theme-set]");if(!b)return;try{localStorage.setItem("ads-theme",b.dataset.themeSet)}catch(x){}apply()});document.addEventListener("DOMContentLoaded",apply)})();`;
+const katex = `document.querySelectorAll(".lesson,.hero,.ck-code").forEach(el=>renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}]}))`;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -15,7 +15,7 @@ const katex = `document.querySelectorAll(".theory,.hero,.ck-code").forEach(el=>r
 <title>{title}</title>
 <link rel="alternate" hreflang={lang === "en" ? "es" : "en"} href={alt} />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
 <style is:inline set:html={ISO_CSS + "*{box-sizing:border-box}body{margin:0;background:var(--anatomy-page);color:var(--anatomy-text);-webkit-font-smoothing:antialiased}" + css}></style>
 </head>

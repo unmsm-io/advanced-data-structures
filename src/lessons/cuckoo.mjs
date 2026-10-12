@@ -157,7 +157,7 @@ export default {
     return {
       title: t.title, accent: t.accent, lede: t.lede, refs: t.refs,
       lab: labHtml({ u, fig: "Fig 2", title: t.title, hint: t.hint, readout: u.empty, keys: [{ mark: "lit", label: t.keyA }, { mark: "raised", label: t.keyB }], svg, controls: controlsHtml(u, t.controls), pseudo: t.pseudo, stateLabel: `MaxLoop = ${MAXK}` }),
-      theory: t.theory.map(([h, b], i) => section(i + 1, h, b)).join(""),
+      sections: t.theory.map(([h, b]) => ({ title: h, html: b })),
       script: liveScript({ P, u, consts: { M, MAXK, ROW_Y, X0, PITCH, BALL_Z, HOPPER, HOPPER_TOP, KNOBS, DIAL, DIAL_R, DIAL_TOP }, code }),
     };
   },

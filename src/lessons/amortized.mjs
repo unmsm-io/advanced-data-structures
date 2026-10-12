@@ -32,7 +32,7 @@ const svg = k.figureSvg({ width: 640, height: 330, label: "Binary counter machin
 const code = String.raw`
 const bitsL=layer("bits"),bankL=layer("bank"),airL=layer("air"),needle=$('[data-part="needle"]',svg);
 const X=i=>X0-i*PITCH;let A=Array(B).fill(0),H=Array(B).fill(2),n=0,cost=0,last=0,bank=0,needleAt=0;
-const g=Array.from({length:B},(_,i)=>{const e=art("",bitsL);e.pos=[X(i),0,0];return e});
+const g=Array.from({length:B},(_,i)=>{const e=art("",bitsL);e.pos=[X(i),0,0];return e});sortBy(bitsL);
 function drawBit(i,on){const h=H[i];g[i].innerHTML=solidSvg(slabOf({x:X(i)-7,y:-8,w:14,d:16,r:1.5},BASEZ,h,P,4,.5),{tone:"hi",lit:on})+(A[i]&&h>12?solidSvg(cylinder(X(i),0,4.6,BASEZ+h,1.6,P,24),{tone:"mid"})+lineSvg(ring(X(i),0,3,BASEZ+h+1.6,P,18),{tone:"lo"}):"")}
 function drawBank(){bankL.innerHTML="";for(let c=0;c<Math.min(bank,14);c++){const e=art(solidSvg(cylinder(BIN.x+9+(c%4)*9.5,BIN.y+11,4.2,6+Math.floor(c/4)*1.8,1.6,P,22),{tone:"mid"}),bankL);e.pos=[0,0,c]}}
 function needleD(v){const [x,y]=DIAL,a=Math.PI*.75+Math.min(v,8)/8*Math.PI*1.5;return seg([x-Math.cos(a)*2.4,y-Math.sin(a)*2.4,7.2],[x+Math.cos(a)*8.6,y+Math.sin(a)*8.6,7.2])}

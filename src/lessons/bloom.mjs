@@ -34,7 +34,7 @@ const svg = k.figureSvg({ width: 640, height: 330, label: "Counting Bloom filter
 const code = String.raw`
 const pinsL=layer("pins"),airL=layer("air"),X=i=>X0+i*PITCH;
 let C=Array(M).fill(0),H=Array(M).fill(0),keys=new Set();
-const pins=Array.from({length:M},(_,i)=>{const e=art("",pinsL);e.pos=[X(i),0,0];return e});
+const pins=Array.from({length:M},(_,i)=>{const e=art("",pinsL);e.pos=[X(i),0,0];return e});sortBy(pinsL);
 function drawPin(i,on){const h=1.2+H[i]*PIN_STEP;pins[i].innerHTML=solidSvg(cylinder(X(i),0,3,BOARD_Z,h,P,22,.3),{tone:C[i]?"hi":"lo",lit:on})+(C[i]?lineSvg(ring(X(i),0,1.6,BOARD_Z+h,P,14),{tone:"lo"}):"")}
 function hash(s,seed){let x=2166136261^seed;for(const ch of s){x^=ch.charCodeAt(0);x=Math.imul(x,16777619)>>>0}x^=x>>>15;x=Math.imul(x,0x2c1b3c6d)>>>0;return ((x^(x>>>12))>>>0)%M}
 const hs=s=>{const out=[];for(let j=0;out.length<KH&&j<20;j++){const v=hash(s,j*0x9e3779b1>>>0);if(!out.includes(v))out.push(v)}return out};

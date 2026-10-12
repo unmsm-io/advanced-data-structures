@@ -24,10 +24,11 @@ function trayArt(n,on){const w=MAXK*SLOT+4,pl={x:n.x,y:n.y-8,w,d:16,r:1.4};let s
  for(let i=0;i<MAXK;i++){const cx=n.x+2+i*SLOT+SLOT/2;s+=lineSvg(planOutline({x:cx-6.4,y:n.y-6,w:12.8,d:12,r:1},n.z+3,P,2),{tone:"faint"});
   if(n.keys[i]!==undefined)s+=solidSvg(slabOf({x:cx-6,y:n.y-5.6,w:12,d:11.2,r:1},n.z+3,3,P,2,.3),{tone:"hi",lit:on})+faceTextSvg(topMatrix([cx,n.y+1.8],n.z+6,P,"x"),String(n.keys[i]),{size:7,tone:"lo",anchor:"middle"})}
  return s}
-function draw(on=[]){traysL.innerHTML="";const lv=layout();
+function draw(on=[]){traysL.innerHTML="";const lv=layout(),trays=[];
  for(const level of lv)for(const n of level){if(n.leaf&&n.next){const a=[n.x+MAXK*SLOT+4,n.y+5,n.z+1.5],b=[n.next.x,n.next.y+5,n.z+1.5];traysL.insertAdjacentHTML("beforeend",lineSvg(seg(a,b),{tone:"mid"}))}
   if(!n.leaf)n.kids.forEach((c,i)=>{const a=[n.x+2+Math.min(i,MAXK)*SLOT,n.y+6,n.z],b=[c.x+(MAXK*SLOT+4)/2,c.y-6,c.z+3];traysL.insertAdjacentHTML("beforeend",lineSvg(seg(a,b),{tone:on.includes(c)?"lit":"lo"}))});
-  const g=art(trayArt(n,on.includes(n)),traysL);g.pos=[n.x,n.y,n.z]}}
+  trays.push(n)}
+ trays.sort((a,b)=>depthOf([a.x+20,a.y,a.z],P)-depthOf([b.x+20,b.y,b.z],P)).forEach(n=>{const g=art(trayArt(n,on.includes(n)),traysL);g.pos=[n.x,n.y,n.z]})}
 function findLeaf(k){let n=root;const path=[n];while(!n.leaf){let i=0;while(i<n.keys.length&&k>=n.keys[i])i++;n=n.kids[i];path.push(n)}return path}
 async function insert(k){if(keys.includes(k)){say(fmt(U.dup,{k}));return}hl(0);const path=findLeaf(k);ios=path.length;
  for(let i=0;i<path.length;i++){draw(path.slice(0,i+1));await wait(260)}

@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { LANGS, UI } from "../../i18n/ui.mjs";
+import { LANGS, UI, fmt } from "../../i18n/ui.mjs";
 import { LESSONS } from "../../lessons/index.mjs";
 import { pad2 } from "../../lib/shell.mjs";
 export const getStaticPaths = () => LANGS.flatMap((lang) => LESSONS.map((w, i) => ({ params: { lang, slug: w.lesson.slug }, props: { i } })));
@@ -11,11 +11,20 @@ const w = LESSONS[i];
 const page = w.lesson.render(lang);
 const other = lang === "en" ? "es" : "en";
 const prev = LESSONS[i - 1], next = LESSONS[i + 1];
+const secs = page.sections.map((x, n) => ({ ...x, id: `s${n + 1}`, n: pad2(n + 1), html: x.html.replace(/<li>/g, `<li data-ex="${u.exercise}">`) }));
+const words = page.sections.map((x) => x.html.replace(/<[^>]+>|\$[^$]*\$/g, " ")).join(" ").split(/\s+/).length;
+const toc = `(function(){var l=[].slice.call(document.querySelectorAll(".toc a"));var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){l.forEach(function(a){a.toggleAttribute("aria-current",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-30% 0px -60% 0px"});document.querySelectorAll(".step").forEach(function(s){o.observe(s)})})();`;
 const h1 = page.accent ? page.title.replace(page.accent, `<span>${page.accent}</span>`) : page.title;
 ---
 <Base title={`${page.title} · ${u.course}`} lang={lang} alt={`/${other}/${slug}/`} script={page.script}>
-<div class="lz"><header class="hero"><div><div class="kicker"><span><a href={`/${lang}/`}>{u.course}</a> · {u.unit} {w.unit} · {u.week} {pad2(w.w)}</span></div><h1 set:html={h1} /><p class="lede" set:html={page.lede} /></div><div class="meta"><span>{u.school}</span>{page.refs && <span set:html={page.refs} />}</div></header></div>
+<div class="lz" id="top"><header class="hero"><div><div class="kicker"><span><a href={`/${lang}/`}>{u.course}</a> · {u.unit} {w.unit} · {u.week} {pad2(w.w)}</span></div><h1 set:html={h1} /><p class="lede" set:html={page.lede} /></div><div class="meta"><span>{u.school}</span>{page.refs && <span set:html={page.refs} />}</div></header></div>
 <Fragment set:html={page.lab} />
-<div class="lz theory" set:html={page.theory} />
+<div class="lz lesson" id="theory">
+<aside class="toc"><div class="toc-in"><small>{u.inLesson}</small><span class="mins">{fmt(u.minutes, { n: Math.max(3, Math.round(words / 180)) })}</span>
+<ol>{secs.map((x) => <li><a href={`#${x.id}`}><span>{x.n}</span>{x.title}</a></li>)}</ol>
+<a class="up" href="#top">↑ {u.toLab}</a></div></aside>
+<article>{secs.map((x) => <section class="step" id={x.id}><header><span class="n">{x.n}</span><h2>{x.title}</h2></header><div class="body" set:html={x.html} /></section>)}</article>
+</div>
+<script is:inline set:html={toc}></script>
 <nav class="lz pager">{prev ? <a href={`/${lang}/${prev.lesson.slug}/`}><small>{u.prev}</small>{prev.topic[lang]}</a> : <a href={`/${lang}/`}><small>←</small>{u.back}</a>}{next ? <a href={`/${lang}/${next.lesson.slug}/`} style="text-align:right"><small>{u.next}</small>{next.topic[lang]}</a> : <a href={`/${lang}/`} style="text-align:right"><small>→</small>{u.back}</a>}</nav>
 </Base>

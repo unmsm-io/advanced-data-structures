@@ -24,11 +24,11 @@ const h1 = u.course.replace(u.courseAccent, `<span>${u.courseAccent}</span>`);
 </Base>
 <style is:global>
 .units{display:grid;gap:36px;padding:36px 0}
-.unit h2{font:400 30px/1.1 "Instrument Serif",serif;margin:0 0 12px}.unit h2 small{display:block;font:600 11px Inter;letter-spacing:.12em;color:var(--acc);margin-bottom:6px}
+.unit h2{font:650 30px/1.15 var(--f-display);margin:0 0 12px}.unit h2 small{display:block;font:600 11px var(--f-body);letter-spacing:.12em;color:var(--acc);margin-bottom:6px}
 .row{display:grid;grid-template-columns:48px 1fr auto;gap:16px;align-items:center;padding:14px 16px;border-top:1px solid var(--rule);color:inherit;text-decoration:none}
 .row:last-child{border-bottom:1px solid var(--rule)}
-.row .wk{font:600 13px "JetBrains Mono",monospace;opacity:.5}
-.row b{display:block;font:500 15px Inter}.row em{display:block;font-style:normal;font-size:13px;opacity:.55;margin-top:2px}
-.row .st{font:500 12px Inter;opacity:.45}
+.row .wk{font:600 13px var(--f-mono);opacity:.5}
+.row b{display:block;font:500 15px var(--f-body)}.row em{display:block;font-style:normal;font-size:13px;opacity:.55;margin-top:2px}
+.row .st{font:500 12px var(--f-body);opacity:.45}
 .row.live{background:color-mix(in srgb,var(--acc) 7%,transparent)}.row.live .st{color:var(--acc);opacity:1;font-weight:600}.row.live:hover{background:color-mix(in srgb,var(--acc) 13%,transparent)}
 </style>
